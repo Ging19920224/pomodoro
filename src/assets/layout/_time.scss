@@ -1,0 +1,63 @@
+.time {
+  top: 0;
+  right: 0;
+  width: 45%;
+  height: 100vh;
+  h2 {
+    margin-top: 60px;
+    color: $color-primary;
+    font-size: 40px;
+  }
+  .time__clock {
+    width: 456px;
+    height: 456px;
+    margin: 50px auto;
+    border: 1px solid $color-primary;
+    .time__view{
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 380px;
+      height: 380px;
+      border: 1px solid $color-primary;
+    }
+    .time__font {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: $color-light;
+      font-size: 85px;
+    }
+  }
+  .time__btn {
+    width: 168px;
+    height: 48px;
+    font-size: 30px;
+    color: $color-dark2;
+    background-color: $color-primary;
+    border-radius: 30px;
+    cursor: pointer;
+    border: none;
+    &:focus {
+      outline: none;
+    }
+    &:hover {
+      box-shadow: 2px 2px 1px black;
+    }
+    &:active {
+      box-shadow: 2px 2px 15px black;
+    }
+  }
+  .time__pointGroup {
+    display: flex;
+    justify-content: center;
+    .time__point {
+      width: 18px;
+      height: 18px;
+      border: 1px solid $color-primary;
+    }
+    .time__point-active {
+      background-color: $color-primary;
+    }
+  }
+}
