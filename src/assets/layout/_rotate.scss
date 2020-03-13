@@ -1,0 +1,10 @@
+@for $i from 0 through 1500 {
+  .workRotate-#{ $i } {
+    transform: rotate(0.24deg * $i )!important;
+  }
+}
+@for $i from 0 through 300 {
+  .breakRotate-#{ $i } {
+    transform: rotate(1.2deg * $i )!important;
+  }
+}

@@ -12,14 +12,18 @@
     width: 456px;
     height: 456px;
     margin: 50px auto;
-    border: 1px solid $color-primary;
+    border: 4.5px solid $color-primary;
+    background-color: $color-dark2;
+    z-index: 2;
     .time__view{
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 380px;
       height: 380px;
-      border: 1px solid $color-primary;
+      background-color: $color-dark2;
+      border: 4.5px solid $color-primary;
+      z-index: 3;
     }
     .time__font {
       top: 50%;
@@ -27,6 +31,28 @@
       transform: translate(-50%, -50%);
       color: $color-light;
       font-size: 85px;
+      width: 300px;
+    }
+    .progress {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 455px;
+      height: 455px;
+    }
+    .workProgress-bar, .breakProgress-bar {
+      top: -0.5%;
+      left: 50%;
+      transform: translateX( -50%);
+      width: 1.5px;
+      height: 50.5%;
+      background-color: $color-primary;
+      transition: all .5s;
+      transform-origin: bottom;
+      z-index: 1;
+    }
+    .breakProgress-bar {
+      width: 4.5px;
     }
   }
   .time__btn {
@@ -56,8 +82,15 @@
       height: 18px;
       border: 1px solid $color-primary;
     }
-    .time__point-active {
-      background-color: $color-primary;
-    }
+  }
+  .mode {
+    top: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 55px;
+    color: $color-primary
+  }
+  .second-active {
+    opacity: 0;
   }
 }
