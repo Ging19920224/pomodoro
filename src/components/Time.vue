@@ -1,5 +1,5 @@
 <template>
-  <div class="time position-fixed">
+  <div class="time position-fixed text-center">
     <h2 class="text-center" :class="{'text-break':timer.mode === 'BREAK'}">
       <i class="far fa-clock"></i>
       {{ clockStatus }}

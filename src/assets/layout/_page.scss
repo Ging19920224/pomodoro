@@ -3,6 +3,13 @@
   top: 0;
   left: 15%;
   width: 40%;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 73px 0px 30px 0px;
   background-color: $color-dark;
+  .page__title {
+    padding-left: 56px;
+    color: $color-primary;
+    font-size: 32px;
+    margin: 0;
+  }
 }

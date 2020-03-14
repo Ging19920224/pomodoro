@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <h1>analysis</h1>
+    <p class="text-left page__title">ANALYSIS</p>
   </div>
 </template>
 

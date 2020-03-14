@@ -1,5 +1,5 @@
 <template>
   <div class="page">
-    <h1>Ringtones</h1>
+    <p class="text-left page__title">RINGTONES</p>
   </div>
 </template>

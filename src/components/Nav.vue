@@ -10,7 +10,7 @@
       </router-link>
       <router-link
       class="text-center border-circle ds-inline-block mt-50"
-      to="/Ringtones"
+      to="/Analysis"
       :class="{'nav-active':status === 'Ringtones'}"
       @click.native="changePage('Ringtones')"
       >
@@ -19,7 +19,7 @@
       <router-link
       class="text-center border-circle ds-inline-block mt-50"
       :class="{'nav-active':status === 'Analysis'}"
-      to="/Analysis"
+      to="/Ringtones"
       @click.native="changePage('Analysis')"
       >
         <i class="far fa-bell"></i>

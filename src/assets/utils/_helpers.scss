@@ -41,15 +41,26 @@
 .m-auto {
   margin: 0 auto;
 }
+.mt-25 {
+  margin-top: 25px;
+}
 .mt-30 {
   margin-top: 30px;
 }
 .mt-50 {
   margin-top: 50px;
 }
+.ml-20 {
+  margin-left: 20px;
+}
 .mr-25 {
   margin-right: 25px;
 }
+.ellipsis {
+  overflow:hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  }
 .text-break {
   color: $color-break!important;
 }

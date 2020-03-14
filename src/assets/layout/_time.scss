@@ -64,14 +64,14 @@
     border-radius: 30px;
     cursor: pointer;
     border: none;
+    transition: all .3s;
     &:focus {
       outline: none;
     }
     &:hover {
-      box-shadow: 2px 2px 1px black;
-    }
-    &:active {
-      box-shadow: 2px 2px 15px black;
+      font-size: 34px;
+      transform: translate(-2%, -2%);
+      box-shadow: 1px 1px 10px black;
     }
   }
   .time__pointGroup {
