@@ -20,6 +20,9 @@
  * 可選取不同鈴聲並能本地端存取
  * 可自行調整執行任務時間並能本地端存取
 
+## 聲明
+* 設計稿來自 The F2E 設計師 [p.hhuang](https://challenge.thef2e.com/user/1683)
+
 ## Project setup
 ```
 npm install
