@@ -1,4 +1,4 @@
-# 蕃茄鐘 ｜ The F2E 第一關
+# 番茄鐘 ｜ The F2E 第一關
 
 ## DEMO
   <https://ging19920224.github.io/pomodoro/#/>
