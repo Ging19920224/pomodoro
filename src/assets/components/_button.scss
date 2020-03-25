@@ -1,0 +1,18 @@
+.btn {
+  width: auto;
+  height: auto;
+  padding: 5px 10px;
+  font-size: 14px;
+  border: 1px solid $color-primary;
+  color: $color-primary;
+  background-color: $color-dark;
+  border-radius: 5px;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+}
+.btn-active {
+  color: $color-dark;
+  background-color: $color-primary;
+}

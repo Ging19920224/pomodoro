@@ -24,13 +24,13 @@
       <div class="progress position-absolute border-circle"></div>
       <div v-for="(item, index) in 1500"
       :key="`work-${index}`"
-      :class="`workRotate-${index}`"
-      v-show="timer.cumulativeSecond >= index && timer.mode === 'WORK'"
+      :class="`rotate-${index}`"
+      v-show="completed >= index * 0.0667 && timer.mode === 'WORK'"
       class="workProgress-bar position-absolute"></div>
-      <div v-for="(item, index) in 300"
+      <div v-for="(item, index) in 1500"
       :key="`break-${index}`"
-      :class="`breakRotate-${index}`"
-      v-show="timer.cumulativeSecond >= index && timer.mode === 'BREAK'"
+      :class="`rotate-${index}`"
+      v-show="completed >= index * 0.0667 && timer.mode === 'BREAK'"
       class="breakProgress-bar position-absolute bg-break"></div>
     </div>
     <div class="mt-30">
@@ -74,12 +74,26 @@
         }"
       ></span>
     </div>
+    <audio id="audio-0" src="../assets/ring/default.mp3"></audio>
+    <audio id="audio-1" src="../assets/ring/bell.mp3"></audio>
+    <audio id="audio-2" src="../assets/ring/birds.mp3"></audio>
+    <audio id="audio-3" src="../assets/ring/classic.mp3"></audio>
+    <audio id="audio-4" src="../assets/ring/opening.mp3"></audio>
+    <audio id="audio-5" src="../assets/ring/whatFlash.mp3"></audio>
+    <audio id="audio-6" src="../assets/ring/alert.mp3"></audio>
+    <audio id="audio-7" src="../assets/ring/warning.mp3"></audio>
+    <Message></Message>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import Message from './Message.vue';
+
 export default {
-  name: 'Time',
+  components: {
+    Message,
+  },
   data() {
     return {
       clock: {
@@ -91,14 +105,23 @@ export default {
         status: 'Start',
         mode: 'WORK',
         isPush: false,
-        minutes: 25,
-        secondTotal: 1500,
+        minutes: 1,
+        work: 0,
+        break: 0,
+        secondTotal: 60,
         seconds: 60,
         cumulativeSecond: -1,
       },
     };
   },
   computed: {
+    ...mapGetters(['data', 'date', 'nowTask', 'isDoing', 'selectedRing', 'time']),
+    nowWorkSetTime() {
+      return this.time.work;
+    },
+    nowBreakSetTime() {
+      return this.time.break;
+    },
     nowHour() {
       let { hour } = this.clock;
       if (hour < 10) hour = `0${hour}`;
@@ -138,7 +161,19 @@ export default {
       return (vm.cumulativeSecond / vm.secondTotal) * 100;
     },
   },
+  watch: {
+    nowWorkSetTime: {
+      handler: 'getTime',
+      immediate: true,
+    },
+    nowBreakSetTime: {
+      handler: 'getTime',
+      immediate: true,
+    },
+  },
   mounted() {
+    this.getRing();
+    this.getTime();
     const getTime = new Date();
     let hour = getTime.getHours();
     let minutes = getTime.getMinutes();
@@ -159,6 +194,38 @@ export default {
     }, 1000);
   },
   methods: {
+    taskActive() {
+      const status = !this.isDoing;
+      if (this.timer.mode === 'WORK') this.$store.dispatch('taskActive', status);
+    },
+    getData() {
+      this.$store.dispatch('getData', this.date.dateCode);
+    },
+    messageDisplay(message, display) {
+      this.$store.dispatch('messageDisplay', { message, display });
+    },
+    completedTask() {
+      const target = this.nowTask;
+      const data = JSON.parse(JSON.stringify(this.data));
+      data.all.forEach((item) => {
+        // eslint-disable-next-line no-param-reassign
+        if (item.id === target) item.isComplete = true;
+      });
+      localStorage.setItem('task', JSON.stringify(data.all));
+      this.getData();
+      this.$store.dispatch('choseTask', '');
+    },
+    getTime() {
+      this.$store.dispatch('getTime');
+      this.timer.work = this.time.work;
+      this.timer.break = this.time.break;
+      this.timer.secondTotal = this.time.work * 60;
+      if (this.timer.mode === 'WORK') {
+        this.timer.minutes = this.time.work;
+      } else {
+        this.timer.minutes = this.time.break;
+      }
+    },
     getNowTime(second, minutes, hour) {
       const vm = this.clock;
       vm.seconds = second;
@@ -166,12 +233,18 @@ export default {
       vm.hour = hour;
     },
     timerActive() {
+      if (this.nowTask === '' && this.timer.mode === 'WORK') {
+        this.messageDisplay('您尚未選取或新增工作任務', true);
+        return;
+      }
       const vm = this.timer;
       if (!vm.isPush) {
+        this.taskActive();
         vm.isPush = true;
         vm.status = 'Pause';
         this.timerStart();
       } else {
+        this.taskActive();
         vm.isPush = false;
         vm.status = 'Start';
         this.timerStart();
@@ -196,33 +269,61 @@ export default {
           vm.seconds -= 1;
           vm.cumulativeSecond += 1;
           this.timerCycle();
-        }, 500);
-      } else {
-        clearTimeout();
+        }, 1000);
       }
     },
     timerCycle() {
-      setTimeout(() => {
-        this.timeGo();
-      }, 500);
+      this.timeGo();
     },
     checkMode() {
       const vm = this.timer;
       if (vm.minutes < 0 && vm.mode === 'WORK') {
         vm.isPush = false;
+        this.taskActive();
         vm.status = 'Start';
         vm.mode = 'BREAK';
-        vm.minutes = 5;
+        vm.minutes = vm.break;
         vm.cumulativeSecond = -1;
-        vm.secondTotal = 300;
+        vm.secondTotal = vm.break * 60;
+        this.completedTask();
+        const message = '恭喜完成一項工作囉，休息一下吧！';
+        this.messageDisplay(message, true);
+        this.play(this.selectedRing.id);
       } else if (vm.minutes < 0 && vm.mode === 'BREAK') {
         vm.isPush = false;
         vm.status = 'Start';
         vm.mode = 'WORK';
-        vm.minutes = 25;
+        vm.minutes = vm.work;
         vm.cumulativeSecond = -1;
-        vm.secondTotal = 1500;
+        vm.secondTotal = vm.work * 60;
+        this.$store.dispatch('choseTask', '');
+        const message = '休息時間結束囉，準備開始下一個工作吧！';
+        this.messageDisplay(message, true);
+        this.play(this.selectedRing.id);
       }
+    },
+    getRing() {
+      this.$store.dispatch('getRing');
+    },
+    play(id) {
+      const audioID = id;
+      const audio = document.querySelector(`#${audioID}`);
+      if (!this.isPlaying) {
+        audio.play();
+        this.isPlaying = true;
+      }
+      audio.addEventListener('timeupdate', () => {
+        if (audio.currentTime > 4) {
+          this.isPlaying = false;
+          audio.pause();
+          audio.currentTime = 0;
+        }
+      });
+      audio.addEventListener('ended', () => {
+        this.isPlaying = false;
+        audio.pause();
+        audio.currentTime = 0;
+      });
     },
   },
 };

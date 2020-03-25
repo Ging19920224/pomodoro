@@ -1,0 +1,38 @@
+.message {
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 580px;
+  height: 180px;
+  background-color: $color-dark2;
+  border: 2px solid $color-primary;
+  color: $color-light;
+  font-size: 24px;
+  z-index: -9;
+  display: none;
+  opacity: 0;
+  transition: all .5s;
+  .message__btn {
+    top: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    color: $color-light;
+    &:hover {
+      color: $color-primary;
+    }
+  }
+  p {
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+.message-active {
+  display: block;
+  opacity: 1;
+  z-index: 99;
+}

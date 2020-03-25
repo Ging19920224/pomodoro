@@ -1,6 +1,6 @@
 .container {
-  width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  height: auto;
 }
 .text-center {
   text-align: center;
@@ -38,8 +38,14 @@
 .ds-inline-block {
   display: inline-block;
 }
+.ds-flex {
+  display: flex;
+}
 .m-auto {
   margin: 0 auto;
+}
+.mt-20 {
+  margin-top: 20px;
 }
 .mt-25 {
   margin-top: 25px;
@@ -50,11 +56,35 @@
 .mt-50 {
   margin-top: 50px;
 }
+.mt-100 {
+  margin-top: 100px;
+}
+.ml-10 {
+  margin-left: 10px;
+}
 .ml-20 {
   margin-left: 20px;
 }
+.ml-30 {
+  margin-left: 30px;
+}
+.ml-50 {
+  margin-left: 50px;
+}
+.mr-5 {
+  margin-right: 5px;
+}
+.mr-20 {
+  margin-right: 20px;
+}
 .mr-25 {
   margin-right: 25px;
+}
+.mr-50 {
+  margin-right: 50px;
+}
+.pl-50 {
+  padding-left: 50px;
 }
 .ellipsis {
   overflow:hidden;

@@ -24,6 +24,11 @@ const routes = [
     name: 'Analysis',
     component: () => import('../views/Analysis.vue'),
   },
+  {
+    path: '/SetUp',
+    name: 'SetUp',
+    component: () => import('../views/SetUp.vue'),
+  },
 ];
 
 const router = new VueRouter({

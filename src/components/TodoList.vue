@@ -18,7 +18,7 @@
     <div class="mt-50">
       <div
       class="taskList_list mt-25"
-      v-for="(item, index) in lessTask"
+      v-for="(item, index) in data.less"
       :key="`more-${item.dateCode}-${index}`"
       v-show="status === 'more'"
       >
@@ -42,7 +42,7 @@
       </div>
       <div
       class="taskList_list mt-25"
-      v-for="(item, index) in unTask"
+      v-for="(item, index) in data.undone"
       :key="`less-${item.dateCode}-${index}`"
       v-show="status === 'less'"
       >
@@ -64,95 +64,76 @@
           <i class="fas fa-trash-alt"></i>
         </span>
       </div>
-      <div class="text-right mt-30">
+      <div class="text-right mt-30" v-show="undoneNum > 4">
         <span
-        class="taskList__more" v-if="todayTask > 4"
+        class="taskList__more"
         @click="changeStatus"
         >{{ status }}...</span>
       </div>
     </div>
+    <Message></Message>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import Message from './Message.vue';
+
 export default {
+  components: {
+    Message,
+  },
   data() {
     return {
       message: 'Add new task...',
-      nowTask: '',
-      date: {
-        year: '',
-        month: '',
-        date: '',
-        week: '',
-        dateCode: '',
-        showDate: '',
-        id: '',
-      },
-      unTask: [],
-      lessTask: [],
-      completedTask: [],
       status: 'more',
     };
   },
   computed: {
-    todayTask() {
-      const vm = this;
-      return vm.unTask.length;
+    ...mapGetters(['date', 'data', 'nowTask', 'isDoing']),
+    undoneNum() {
+      return this.data.undone.length;
     },
   },
+  created() {
+    this.getDate();
+  },
   mounted() {
-    const vm = this;
-    vm.getDate();
-    vm.geOldtData();
+    this.getData();
   },
   methods: {
     getDate() {
-      const vm = this;
-      const getDate = new Date();
-      let year = getDate.getFullYear();
-      let month = getDate.getMonth() + 1;
-      let date = getDate.getDate();
-      vm.date.week = getDate.getDay();
-      vm.date.showDate = `${year}.${month}.${date}`;
-      vm.date.year = year;
-      vm.date.month = month;
-      vm.date.date = date;
-      vm.date.id = getDate.getTime();
-      year += '';
-      month += '';
-      date += '';
-      vm.date.dateCode = year + month + date;
+      this.$store.dispatch('getDate');
     },
-    geOldtData() {
-      const oldData = JSON.parse(localStorage.getItem('task'));
-      const vm = this;
-      if (oldData === null) return;
-      vm.unTask = oldData.reduce((prev, current) => {
-        if (current.dateCode === vm.date.dateCode && !current.isComplete) {
-          prev.push(current);
-        }
-        return prev;
-      }, []);
-      vm.lessTask = oldData.reduce((prev, current, index) => {
-        if (current.dateCode === vm.date.dateCode && !current.isComplete && index < 4) {
-          prev.push(current);
-        }
-        return prev;
-      }, []);
-      vm.completedTask = oldData.reduce((prev, current) => {
-        if (current.dateCode === vm.date.dateCode && current.isComplete) {
-          prev.push(current);
-        }
-        return prev;
-      }, []);
+    getData() {
+      this.$store.dispatch('getData', this.date.dateCode);
+    },
+    messageDisplay(message, display) {
+      this.$store.dispatch('messageDisplay', { message, display });
+    },
+    choseTask(index) {
+      if (this.isDoing) {
+        const message = '計時器正在進行中，請先暫停工作';
+        this.messageDisplay(message, true);
+        return;
+      }
+      const task = this.data.undone[index];
+      if (task.id === this.nowTask) {
+        this.$store.dispatch('choseTask', '');
+        return;
+      }
+      this.$store.dispatch('choseTask', task.id);
     },
     addTask() {
-      const vm = this;
-      vm.getDate();
+      if (this.message === '') {
+        const message = '任務名稱不得為空';
+        this.messageDisplay(message, true);
+        return;
+      }
+      this.getDate();
       const {
         showDate, dateCode, year, month, date, week, id,
-      } = vm.date;
+      } = this.date;
       const task = {
         showDate,
         dateCode,
@@ -161,35 +142,33 @@ export default {
         date,
         week,
         id,
-        message: vm.message,
+        message: this.message,
         isComplete: false,
       };
-      vm.unTask.push(task);
-      const data = JSON.stringify(vm.unTask);
-      localStorage.setItem('task', data);
-      vm.geOldtData();
-      vm.message = 'Add new task...';
-    },
-    choseTask(index) {
-      const vm = this;
-      const task = vm.unTask[index];
-      vm.nowTask = task.id;
+      const data = JSON.parse(JSON.stringify(this.data));
+      data.all.push(task);
+      localStorage.setItem('task', JSON.stringify(data.all));
+      this.getData();
+      this.message = 'Add new task...';
     },
     deleteTask(id) {
-      const vm = this;
-      const target = vm.unTask.filter((item) => id === item.id);
-      const index = vm.unTask.indexOf(target[0]);
-      vm.unTask.splice(index, 1);
-      const data = JSON.stringify(vm.unTask);
-      localStorage.setItem('task', data);
-      vm.geOldtData();
+      if (id === this.nowTask) {
+        const message = '不得刪除已選取的工作，欲刪除請先取消';
+        this.messageDisplay(message, true);
+        return;
+      }
+      const target = this.data.all.filter((item) => id === item.id);
+      const index = this.data.all.indexOf(target[0]);
+      const data = JSON.parse(JSON.stringify(this.data));
+      data.all.splice(index, 1);
+      localStorage.setItem('task', JSON.stringify(data.all));
+      this.getData();
     },
     changeStatus() {
-      const vm = this;
-      if (vm.status === 'more') {
-        vm.status = 'less';
+      if (this.status === 'more') {
+        this.status = 'less';
       } else {
-        vm.status = 'more';
+        this.status = 'more';
       }
     },
   },

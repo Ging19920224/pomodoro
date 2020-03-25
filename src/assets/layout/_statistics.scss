@@ -1,0 +1,75 @@
+.statistics {
+  padding: 78px 0 10px 0;
+  .statistics__box {
+    width: 40%;
+    height: auto;
+    .statistics__title {
+      width: 100px;
+      color: rgba(255, 255, 255, .5);
+      font-size: 23px;
+      margin: 0 0 20px 0;
+    }
+    .statistics__number {
+      width: 100px;
+      color: $color-primary;
+      font-size: 47px;
+    }
+    .statistics__tomato {
+      color: rgba(255, 255, 255, .5);
+      font-size: 24px;
+    }
+  }
+  .statistics__date {
+    min-width: 200px;
+  }
+  .date-font {
+    font-size: 19px;
+    color: rgba(255, 255, 255, .5);
+  }
+  .statistics__btn {
+    cursor: pointer;
+    &:hover {
+      color: $color-light;
+    }
+  }
+  .diagram {
+    width: 100%;
+    height: 300px;
+    .diagram__container {
+      width: 350px;
+      height: 250px;
+    }
+    .diagram__straight {
+      bottom: 0;
+      width: 1px;
+      height: 110%;
+      border-left: 1px solid #979797;
+    }
+    .diagram__horizontal {
+      left: 0;
+      width: 110%;
+      height: 1px;
+      border-bottom: 1px solid #979797;
+    }
+    .diagram__num {
+      left: -10%;
+      color: $color-primary;
+      font-size: 8px;
+      transform: translateY(50%);
+    }
+    .diagram__date {
+      bottom: -10%;
+      color: $color-primary;
+      font-size: 8px;
+      transform: translateX(-50%);
+    }
+    .diagram__pillar {
+      width: 20px;
+      max-height: 275px;
+      background-color: rgba(245, 166, 35, .6);
+      bottom: 0;
+      transform: translateX(-50%);
+      transition: all .6s;
+    }
+  }
+}

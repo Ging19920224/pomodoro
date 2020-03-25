@@ -9,20 +9,28 @@
         <i class="fas fa-align-left"></i>
       </router-link>
       <router-link
-      class="text-center border-circle ds-inline-block mt-50"
+      class="text-center border-circle ds-inline-block mt-30"
+      :class="{'nav-active':status === 'Analysis'}"
       to="/Analysis"
-      :class="{'nav-active':status === 'Ringtones'}"
-      @click.native="changePage('Ringtones')"
+      @click.native="changePage('Analysis')"
       >
         <i class="fas fa-chart-line"></i>
       </router-link>
       <router-link
-      class="text-center border-circle ds-inline-block mt-50"
-      :class="{'nav-active':status === 'Analysis'}"
+      class="text-center border-circle ds-inline-block mt-30"
       to="/Ringtones"
-      @click.native="changePage('Analysis')"
+      :class="{'nav-active':status === 'Ringtones'}"
+      @click.native="changePage('Ringtones')"
       >
         <i class="far fa-bell"></i>
+      </router-link>
+      <router-link
+      class="text-center border-circle ds-inline-block mt-30"
+      :class="{'nav-active':status === 'SetUp'}"
+      to="/SetUp"
+      @click.native="changePage('SetUp')"
+      >
+        <i class="fas fa-cog"></i>
       </router-link>
       <h1>POMODORO</h1>
     </nav>

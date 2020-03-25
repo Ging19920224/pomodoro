@@ -2,8 +2,13 @@
 @import 'utils/helpers';
 @import 'utils/mixin';
 @import '_base.scss';
+@import 'components/message';
+@import 'components/button';
 @import 'layout/nav';
 @import 'layout/time';
 @import 'layout/rotate';
 @import 'layout/page';
 @import 'layout/taskList';
+@import 'layout/statistics';
+@import 'layout/ringList';
+@import 'layout/setup';

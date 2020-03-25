@@ -1,6 +1,7 @@
 .taskList {
   width: 100%;
   padding: 57px 0 10px 56px;
+  transition: all .5s;
   .taskList__input {
     background-color: transparent;
     padding: 10px 23px;
@@ -36,6 +37,8 @@
     .taskList__point {
       width: 26px;
       height: 26px;
+      line-height: 26px;
+      color: $color-primary;
       border: 1px solid $color-primary;
     }
     .taskList__context {

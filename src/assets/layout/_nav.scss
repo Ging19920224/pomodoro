@@ -14,6 +14,7 @@ nav {
     font-size: 30px;
     border: 1px solid $color-primary;
     color: $color-primary;
+    transition: all .8s;
   }
   .nav-active {
     background-color: $color-primary;
@@ -21,7 +22,7 @@ nav {
     border-color: $color-dark2;
   }
   h1 {
-    margin-top: 142px;
+    margin-top: 90px;
     font-size: 35px;
     writing-mode: vertical-rl;
     transform: rotateZ(180deg);

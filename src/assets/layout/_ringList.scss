@@ -1,0 +1,47 @@
+.ring__box {
+  padding: 0 20px;
+  width: 480px;
+  height: 60px;
+  background-color: $color-dark2;
+  border: 1px solid $color-primary;
+  color: $color-light;
+  cursor: pointer;
+  transition: all .5s;
+  &:hover {
+    transform: translate(-5px, -5px);
+  }
+}
+.ring__point {
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  border: 1px solid $color-light;
+}
+.ring-active {
+  color: $color-light;
+}
+.ring__name {
+  top: 50%;
+  left: 60px;
+  transform: translateY(-50%);
+  font-size: 24px;
+  font-weight: 500;
+}
+.ring__play {
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  font-size: 25px;
+  cursor: pointer;
+  &:hover {
+    color: rgb(233, 107, 233);
+    text-shadow: 2px 2px 1px black;
+  }
+}
+.ring__box-active {
+  background-color: $color-primary;
+  color: $color-dark;
+}
