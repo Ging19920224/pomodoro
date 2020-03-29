@@ -19,7 +19,7 @@ export default {
 </script>
 
 <style lang="scss">
-  @import 'assets/index.scss';
+  @import 'assets/scss/index.scss';
   #app {
     margin-top: -10px;
   }

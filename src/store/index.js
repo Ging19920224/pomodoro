@@ -95,11 +95,8 @@ export default new Vuex.Store({
         completed: [],
       };
       context.dispatch('getDate');
-      // eslint-disable-next-line no-prototype-builtins
-      const check = localStorage.hasOwnProperty('task');
-      if (!check) return;
+      if (localStorage.getItem('task') === null) return;
       data.all = JSON.parse(localStorage.getItem('task'));
-      if (data.all === null) return;
       data.all.forEach((item) => {
         if (item.dateCode === dateCode) {
           data.todayAll.push(item);
@@ -124,16 +121,12 @@ export default new Vuex.Store({
       context.commit('MESSAGE', { message, display });
     },
     getRing(context) {
-      // eslint-disable-next-line no-prototype-builtins
-      const check = localStorage.hasOwnProperty('ring');
-      if (!check) return;
+      if (localStorage.getItem('ring') === null) return;
       const ring = JSON.parse(localStorage.getItem('ring'));
       context.commit('SELECTEDRING', ring);
     },
     getTime(context) {
-      // eslint-disable-next-line no-prototype-builtins
-      const check = localStorage.hasOwnProperty('time');
-      if (!check) return;
+      if (localStorage.getItem('time') === null) return;
       const time = JSON.parse(localStorage.getItem('time'));
       context.commit('TIME', time);
     },
